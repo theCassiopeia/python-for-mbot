@@ -1,7 +1,7 @@
 import serial
 import sys,time
 import signal
-from time import ctime,sleep
+from time import ctime,sleep,localtime
 import glob,struct
 from multiprocessing import Process,Manager,Array
 import threading
@@ -184,8 +184,10 @@ class mBot():
 		self.__writePackage(bytearray([0xff,0x55,len(message)+3,0x0,0x2,0xd,message]))
 
 	def doLEDMXclock(self,port):
-                self.__writePackage(bytearray([0xff,0x55,0x7,0x0,0x2,0x29,port,0x1,time.localtime().tm_hour,time.localtime().tm_min]))
+                self.__writePackage(bytearray([0xff,0x55,0x8,0x0,0x2,0x29,port,0x3,0x1,time.localtime().tm_hour,time.localtime().tm_min]))
 
+        def doLEDMXclear(self,port):
+                self.__writePackage(bytearray([0xff,0x55,0x17,0x0,0x2,0x29,port,0x2,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0]))
 
 	def requestLightOnBoard(self,extID,callback):
 		self.requestLight(extID,8,callback)
