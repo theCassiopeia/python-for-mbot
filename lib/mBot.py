@@ -182,7 +182,11 @@ class mBot():
 		
 	def doIROnBoard(self,message):
 		self.__writePackage(bytearray([0xff,0x55,len(message)+3,0x0,0x2,0xd,message]))
-		
+
+	def doLEDMXclock(self,port):
+                self.__writePackage(bytearray([0xff,0x55,0x7,0x0,0x2,0x29,port,0x1,time.localtime().tm_hour,time.localtime().tm_min]))
+
+
 	def requestLightOnBoard(self,extID,callback):
 		self.requestLight(extID,8,callback)
 	
